@@ -6,14 +6,14 @@ document
     const email = document.getElementById('email').value
     const password = document.getElementById('password').value
 
-    // Validar email
+    // Validar email con regex
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
     if (!emailPattern.test(email)) {
       alert('Por favor, introduce un email válido.')
       return
     }
 
-    // Validar contraseña (mínimo 8 caracteres, una letra mayúscula, una minúscula y un número)
+    // Validar contraseña con regex (mínimo 8 caracteres, una letra mayúscula, una minúscula y un número)
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
     if (!passwordPattern.test(password)) {
       alert(
