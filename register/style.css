@@ -47,7 +47,7 @@ main {
 }
 
 .right-side {
-  background-color: #ffffff;
+  background-color: #f0f0f0;
   flex: 1;
   display: flex;
   flex-direction: column;
