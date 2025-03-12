@@ -1,6 +1,6 @@
 document
   .getElementById('registerForm')
-  .addEventListener('submit', function (event) {
+  .addEventListener('submit', async function (event) {
     event.preventDefault()
 
     const firstName = document.getElementById('firstName').value
@@ -58,25 +58,27 @@ document
       password
     }
 
-    fetch('https://tu-endpoint.com/api/register', {
+    const url = 'http://localhost:3000/api/auth/register'
+    const opciones = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
+    }
+
+    try {
+      const respuesta = await fetch(url, opciones)
+
+      if (!respuesta.ok) {
         throw new Error('Error en el registro')
-      })
-      .then(data => {
-        alert('Registro exitoso')
-        console.log('Respuesta del servidor:', data)
-      })
-      .catch(error => {
-        alert('Hubo un problema al registrar. Por favor, inténtalo de nuevo.')
-        console.error('Error:', error)
-      })
+      }
+
+      const datos = await respuesta.json()
+      console.log(datos)
+      alert('Registro exitoso')
+    } catch (error) {
+      alert('Hubo un problema al registrar. Por favor, inténtalo de nuevo.')
+      console.error('Error:', error)
+    }
   })
