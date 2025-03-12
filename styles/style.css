@@ -1,12 +1,12 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #e0f7fa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   width: 100%;
   margin: 0;
+  background-image: url('../assets/bg.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 .bg {
@@ -16,19 +16,6 @@ body {
   overflow-y: hidden;
   object-fit: cover;
   z-index: -1;
-}
-
-main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  width: 80%;
-  max-width: 900px;
 }
 
 .left-side {
@@ -153,7 +140,6 @@ header {
   width: 100%;
   z-index: 1000;
   background-color: #fff1b6;
-  position: fixed;
   top: 0;
   left: 0;
   padding: 10px;
@@ -195,29 +181,43 @@ header nav a:hover {
   color: #6382a0;
 }
 
-/* ========= Listado Habitaciones =========*/
-.card {
-  background: #f9f9f9;
-  border-radius: 15px;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 350px;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  margin: 15px;
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centra el .card-container dentro de main */
 }
 
-.card:hover {
-  transform: scale(1.05);
+/* ========= Listado Habitaciones =========*/
+.card-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.card-content {
+  width: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.card-content:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.card img {
+.card-content img {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
 
-.card-content {
+.card-properties {
   padding: 20px;
   background: #fff;
 }
@@ -229,12 +229,7 @@ header nav a:hover {
   margin-bottom: 10px;
 }
 
-.card h3 {
-  font-size: 20px;
-  color: #333;
-}
-
-.card p {
+.card-content p {
   font-size: 16px;
   color: #666;
   margin: 0;
@@ -246,6 +241,9 @@ header nav a:hover {
   color: #27ae60;
   display: flex;
   align-items: center;
+  & > span {
+    color: rgb(164, 164, 164);
+  }
 }
 
 .availability {
@@ -265,6 +263,21 @@ header nav a:hover {
   color: #721c24;
 }
 
-#list {
-  background-color: #eef4fb;
+.area {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.room-properties {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.availability-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
