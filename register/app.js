@@ -69,16 +69,30 @@ document
 
     try {
       const respuesta = await fetch(url, opciones)
+      const datos = await respuesta.json()
 
-      if (!respuesta.ok) {
-        throw new Error('Error en el registro')
+      if (datos.message === 'User already exists') {
+        const errorInfo = JSON.stringify({
+          message: datos.message,
+          statusCode: respuesta.status
+        })
+        throw new Error(errorInfo)
       }
 
-      const datos = await respuesta.json()
-      console.log(datos)
-      alert('Registro exitoso')
+      localStorage.setItem('user', JSON.stringify(datos))
+      window.location.href = '../dashboard/index.html'
     } catch (error) {
-      alert('Hubo un problema al registrar. Por favor, inténtalo de nuevo.')
-      console.error('Error:', error)
+      try {
+        const errorData = JSON.parse(error.message)
+
+        if (
+          errorData.statusCode === 400 &&
+          errorData.message === 'User already exists'
+        ) {
+          alert('User already exists with this email or phone number')
+        }
+      } catch (parseError) {
+        alert('Ocurrió un error inesperado.')
+      }
     }
   })

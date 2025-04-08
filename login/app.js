@@ -1,6 +1,6 @@
 document
   .getElementById('loginForm')
-  .addEventListener('submit', function (event) {
+  .addEventListener('submit', async function (event) {
     event.preventDefault()
 
     const email = document.getElementById('email').value
@@ -31,27 +31,42 @@ document
     //Enviar datos al endpoint
     const formData = { email, password }
 
-    fetch('http://localhost:3000/api/auth/login', {
+    const url = 'http://localhost:3000/api/auth/login'
+    const opciones = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
+    }
+
+    try {
+      const respuesta = await fetch(url, opciones)
+      const datos = await respuesta.json()
+      console.log(datos)
+
+      if (datos.message === 'Invalid credentials') {
+        const errorInfo = JSON.stringify({
+          message: datos.message,
+          statusCode: respuesta.status
+        })
+        throw new Error(errorInfo)
+      }
+
+      localStorage.setItem('user', JSON.stringify(datos))
+      window.location.href = '../dashboard/index.html'
+    } catch (error) {
+      try {
+        const errorData = JSON.parse(error.message)
+
+        if (
+          errorData.statusCode === 401 &&
+          errorData.message === 'Invalid credentials'
+        ) {
+          alert('Invalid credentials')
         }
-        throw new Error('Error en el inicio de sesión')
-      })
-      .then(data => {
-        alert('Inicio de sesión exitoso')
-        console.log('Respuesta del servidor:', data)
-      })
-      .catch(error => {
-        alert(
-          'Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo.'
-        )
-        console.error('Error:', error)
-      })
+      } catch (parseError) {
+        alert('Ocurrió un error inesperado.')
+      }
+    }
   })
