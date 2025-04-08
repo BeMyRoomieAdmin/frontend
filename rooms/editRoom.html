@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Habitación</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Editar Habitación</h1>
+      <form onSubmit="editarHabitacion(event)">
+        <div class="form-group">
+          <label for="cama">Cama</label>
+          <input type="checkbox" id="cama" />
+        </div>
+
+        <div class="form-group">
+          <label for="armario">Armario</label>
+          <input type="checkbox" id="armario" />
+        </div>
+
+        <div class="form-group">
+          <label for="escritorio">Escritorio</label>
+          <input type="checkbox" id="escritorio" />
+        </div>
+
+        <div class="form-group">
+          <label for="banyo">Baño</label>
+          <input type="checkbox" id="banyo" />
+        </div>
+
+        <div class="form-group">
+          <label for="calefaccion">Calefacción</label>
+          <input type="checkbox" id="calefaccion" />
+        </div>
+
+        <div class="form-group">
+          <label for="aireAcondicionado">Aire Acondicionado</label>
+          <input type="checkbox" id="aireAcondicionado" />
+        </div>
+
+        <div class="form-group">
+          <label for="libre">Libre</label>
+          <input type="checkbox" id="libre" />
+        </div>
+
+        <div class="form-group">
+          <label for="ventanas">Ventanas</label>
+          <input
+            type="number"
+            id="ventanas"
+            placeholder="Cantidad de ventanas..."
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="area">Área (m²)</label>
+          <input
+            type="number"
+            id="area"
+            placeholder="Área en metros cuadrados..."
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-detalles">Editar</button>
+      </form>
+    </div>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search)
+      const idRoom = urlParams.get('id')
+
+      function editarHabitacion(e) {
+        e.preventDefault()
+
+        const cama = document.getElementById('cama').checked
+        const armario = document.getElementById('armario').checked
+        const escritorio = document.getElementById('escritorio').checked
+        const banyo = document.getElementById('banyo').checked
+        const calefaccion = document.getElementById('calefaccion').checked
+        const aireAcondicionado =
+          document.getElementById('aireAcondicionado').checked
+        const libre = document.getElementById('libre').checked
+        const ventanas = document.getElementById('ventanas').value
+        const area = document.getElementById('area').value
+
+        console.log(
+          JSON.stringify({
+            cama,
+            armario,
+            escritorio,
+            banyo,
+            calefaccion,
+            aireAcondicionado,
+            libre,
+            ventanas,
+            area
+          })
+        )
+
+        fetch('http://localhost:4050/rooms/' + idRoom, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cama,
+            armario,
+            escritorio,
+            banyo,
+            calefaccion,
+            aireAcondicionado,
+            libre,
+            ventanas,
+            area
+          })
+        })
+          .then(function (respuestaTextoPlano) {
+            return respuestaTextoPlano.json()
+          })
+          .then(function (data) {
+            console.log(data)
+            Swal.fire({
+              title: 'Modificada!',
+              text: '¡Habitación modificada con éxito!',
+              icon: 'success'
+            }).then(function () {
+              window.location.href = 'room.html'
+            })
+          })
+          .catch(function (error) {
+            console.log(error)
+            Swal.fire({
+              title: '¡Error!',
+              text: error,
+              icon: 'error'
+            })
+          })
+      }
+
+      function cargarDetallesHabitacion() {
+        fetch('http://localhost:4050/rooms/' + idRoom)
+          .then(function (respuestaTextoPlano) {
+            return respuestaTextoPlano.json()
+          })
+          .then(function (detalles) {
+            console.log(detalles)
+            document.getElementById('cama').checked = detalles.cama
+            document.getElementById('armario').checked = detalles.armario
+            document.getElementById('escritorio').checked = detalles.escritorio
+            document.getElementById('banyo').checked = detalles.banyo
+            document.getElementById('calefaccion').checked =
+              detalles.calefaccion
+            document.getElementById('aireAcondicionado').checked =
+              detalles.aireAcondicionado
+            document.getElementById('libre').checked = detalles.libre
+            document.getElementById('ventanas').value = detalles.ventanas
+            document.getElementById('area').value = detalles.area
+          })
+          .catch(function (error) {
+            console.log('Error en detalles', error)
+          })
+      }
+
+      cargarDetallesHabitacion()
+    </script>
+  </body>
+</html>

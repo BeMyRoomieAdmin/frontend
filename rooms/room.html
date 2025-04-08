@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habitaciones -- Habitaciones FrontEnd</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <!-- El contenedor envuelve todo el contenido (encabezado, botón y tabla) -->
+    <div class="container">
+      <h1>Lista de Habitaciones</h1>
+
+      <!-- Botón para crear un nuevo usuario -->
+      <button onclick="window.location.href='newRoom.html'">
+        Crear Habitación
+      </button>
+      <button onclick="window.location.href='index.html'">Volver</button>
+
+      <!-- Tabla para mostrar la información de los usuarios -->
+      <table id="tableRooms">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cama</th>
+            <th>Armario</th>
+            <th>Ventanas</th>
+            <th>Area (m²)</th>
+            <th>Escritorio</th>
+            <th>Baño</th>
+            <th>Calefacción</th>
+            <th>Aire Acondicionado</th>
+            <th>Libre</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="habitacionesBody">
+          <!-- Aquí se cargarán dinámicamente los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

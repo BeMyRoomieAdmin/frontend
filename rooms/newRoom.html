@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nueva Habitación</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Nueva Habitación</h1>
+      <form onSubmit="crearHabitacion(event)">
+        <div class="form-group">
+          <label for="cama">Cama</label>
+          <input type="checkbox" id="cama" />
+        </div>
+
+        <div class="form-group">
+          <label for="armario">Armario</label>
+          <input type="checkbox" id="armario" />
+        </div>
+
+        <div class="form-group">
+          <label for="escritorio">Escritorio</label>
+          <input type="checkbox" id="escritorio" />
+        </div>
+
+        <div class="form-group">
+          <label for="banyo">Baño</label>
+          <input type="checkbox" id="banyo" />
+        </div>
+
+        <div class="form-group">
+          <label for="calefaccion">Calefacción</label>
+          <input type="checkbox" id="calefaccion" />
+        </div>
+
+        <div class="form-group">
+          <label for="aireAcondicionado">Aire Acondicionado</label>
+          <input type="checkbox" id="aireAcondicionado" />
+        </div>
+
+        <div class="form-group">
+          <label for="libre">Libre</label>
+          <input type="checkbox" id="libre" />
+        </div>
+
+        <div class="form-group">
+          <label for="ventanas">Ventanas</label>
+          <input
+            type="number"
+            id="ventanas"
+            placeholder="Cantidad de ventanas..."
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="area">Área (m²)</label>
+          <input
+            type="number"
+            id="area"
+            placeholder="Área en metros cuadrados..."
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-guardar">Guardar</button>
+
+        <button class="btn-detalles" onclick="window.location.href='room.html'">
+          Volver
+        </button>
+      </form>
+    </div>
+    <script>
+      function crearHabitacion(e) {
+        e.preventDefault()
+
+        const cama = document.getElementById('cama').checked
+        const armario = document.getElementById('armario').checked
+        const escritorio = document.getElementById('escritorio').checked
+        const banyo = document.getElementById('banyo').checked
+        const calefaccion = document.getElementById('calefaccion').checked
+        const aireAcondicionado =
+          document.getElementById('aireAcondicionado').checked
+        const libre = document.getElementById('libre').checked
+        const ventanas = document.getElementById('ventanas').value
+        const area = document.getElementById('area').value
+
+        fetch('http://localhost:4050/rooms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cama,
+            armario,
+            escritorio,
+            banyo,
+            calefaccion,
+            aireAcondicionado,
+            libre,
+            ventanas,
+            area
+          })
+        })
+          .then(function (respuestaTextoPlano) {
+            return respuestaTextoPlano.json()
+          })
+          .then(function (data) {
+            console.log(data)
+            Swal.fire({
+              title: '¡Insertado!',
+              text: '¡Habitación creada con éxito!',
+              icon: 'success'
+            })
+            window.location.href = 'room.html'
+          })
+          .catch(function (error) {
+            console.log(error)
+            Swal.fire({
+              title: '¡Error!',
+              text: error,
+              icon: 'error'
+            })
+          })
+      }
+    </script>
+  </body>
+</html>
