@@ -1,0 +1,198 @@
+/* styles/login.css */
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+main {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  width: 80%;
+  max-width: 960px;
+  margin: 20px; /* Añade un poco de margen exterior */
+}
+
+.left-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.left-side img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Evita espacio extra debajo de la imagen */
+  border-radius: 4px;
+}
+
+.right-side {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header button.house {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 15px;
+}
+
+.header button.house img.house {
+  width: 30px;
+  height: 30px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2em;
+  color: #333;
+}
+
+.auth-links {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.auth-links h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.auth-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+}
+
+.auth-links a.active {
+  color: #007bff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type='email'],
+input[type='password'],
+input[type='text'] {
+  /* Añade el estilo para los inputs de tipo text */
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+button.btnLogin,
+button.btnRegister {
+  /* Añade el estilo para el botón de registro */
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+}
+
+button.btnLogin:hover,
+button.btnRegister:hover {
+  /* Añade el estilo hover para el botón de registro */
+  background-color: #0056b3;
+}
+
+/* Media query para pantallas más pequeñas (donde la imagen desaparece) */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    width: 95%; /* Ocupa más ancho en pantallas pequeñas */
+  }
+
+  .left-side {
+    display: none; /* Oculta la imagen en pantallas pequeñas */
+  }
+
+  .right-side {
+    padding: 20px; /* Reduce el padding en pantallas pequeñas */
+  }
+
+  .header {
+    margin-bottom: 15px;
+  }
+
+  .auth-links {
+    margin-bottom: 20px;
+    justify-content: center; /* Centra los enlaces en pantallas pequeñas */
+  }
+
+  .header h1 {
+    font-size: 1.8em;
+  }
+}
+
+/* Opcional: Ajustes aún más pequeños */
+@media (max-width: 480px) {
+  .header button.house img.house {
+    width: 25px;
+    height: 25px;
+  }
+
+  .header h1 {
+    font-size: 1.5em;
+  }
+
+  .auth-links h2 {
+    font-size: 1em;
+  }
+
+  input[type='email'],
+  input[type='password'] {
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+  }
+
+  button.btnLogin {
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+}
