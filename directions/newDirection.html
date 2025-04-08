@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Dirección</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Nueva Dirección</h1>
+        <form onSubmit="crearDireccion(event)">
+            <input type="text" id="pais" placeholder="País..." required>
+            <input type="text" id="comunidad" placeholder="Comunidad..." required>
+            <input type="text" id="provincia" placeholder="Provincia...">
+            <input type="number" id="codigoPostal" placeholder="Código Postal..." minlength="5" maxlength="5" required>
+            <input type="text" id="ciudad" placeholder="Ciudad..." required>
+            <input type="text" id="calle" placeholder="Calle..." required>
+            <button type="submit" class="btn-detalles">Guardar</button>
+        </form>
+    </div>
+    <script>
+        function crearDireccion(e){
+            e.preventDefault()
+            const pais = document.getElementById("pais").value
+            const comunidad = document.getElementById("comunidad").value
+            const provincia = document.getElementById("provincia").value
+            const codigoPostal = document.getElementById("codigoPostal").value
+            const ciudad = document.getElementById("ciudad").value
+            const calle = document.getElementById("calle").value
+        
+
+            fetch("http://localhost:4050/direcciones",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({pais,comunidad,provincia,codigoPostal,ciudad,calle}) //@RequestBody hay que pasar los campos con los mismo nombres que en el back, si no no funcionará
+                })
+                .then(function(respuestaTextoPlano){
+                    return respuestaTextoPlano.json()
+                })
+                .then(function(data){
+                    console.log(data)
+                    Swal.fire({
+                        title: "¡Insertado!",
+                        text: "Dirección creada con éxito!",
+                        icon: "success"
+                    })
+                    .then(function(){
+                            window.location.href="direcciones.html"
+                        })
+                    
+                })
+                .catch(function(error){
+                    console.log(error)
+                    Swal.fire({
+                        title: "¡Error!",
+                        text: error,
+                        icon: "error"
+                    });
+                })
+        }
+    </script>
+</body>
+</html>

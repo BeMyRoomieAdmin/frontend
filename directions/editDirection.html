@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Dirección</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Dirección</h1>
+        <form onsubmit="editarDireccion(event)">
+            <input type="text" id="pais" placeholder="País..." required>
+            <input type="text" id="comunidad" placeholder="Comunidad..." required>
+            <input type="text" id="provincia" placeholder="Provincia...">
+            <input type="number" id="codigoPostal" placeholder="Código Postal..." minlength="5" maxlength="5" required>
+            <input type="text" id="ciudad" placeholder="Ciudad..." required>
+            <input type="text" id="calle" placeholder="Calle..." required>
+            <button type="submit" class="btn-detalles">Editar</button>
+        </form>
+    </div>
+
+    <script>
+        //Extraemos el parámetro de la queryString "id"
+        //edit?id=2 --> Extraemos el valor id=2
+        const urlParams = new URLSearchParams(window.location.search)
+        const idDireccion = urlParams.get("id")
+
+
+        function editarDireccion(e){
+            e.preventDefault()
+            const pais = document.getElementById("pais").value
+            const comunidad = document.getElementById("comunidad").value
+            const provincia = document.getElementById("provincia").value
+            const codigoPostal = document.getElementById("codigoPostal").value
+            const ciudad = document.getElementById("ciudad").value
+            const calle = document.getElementById("calle").value
+
+
+            fetch("http://localhost:4050/direcciones/" + idDireccion,{
+                    method:"PUT",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({pais,comunidad,provincia,codigoPostal,ciudad,calle})
+                })
+                .then(function(respuestaTextoPlano){
+                    return respuestaTextoPlano.json()
+                })
+                .then(function(data){
+                    console.log(data)
+                    Swal.fire({
+                        title: "Modificado!",
+                        text: "Dirección modificada con éxito!",
+                        icon: "success"
+                    })
+                    .then(function(){
+                            window.location.href="direcciones.html"
+                        })                    
+                })
+                .catch(function(error){
+                    console.log(error)
+                    Swal.fire({
+                        title: "¡Error!",
+                        text: error,
+                        icon: "error"
+                    });
+                })               
+        }
+
+
+        function cargarDetallesDireccion(){
+            fetch("http://localhost:4050/direcciones/" + idDireccion)
+            .then(function(respuestaTextoPlano){
+                return respuestaTextoPlano.json()
+            })
+            .then(function(detalles){
+                document.getElementById("pais").value = detalles.pais
+                document.getElementById("comunidad").value = detalles.comunidad
+                document.getElementById("provincia").value = detalles.provincia
+                document.getElementById("codigoPostal").value = detalles.codigoPostal
+                document.getElementById("ciudad").value = detalles.ciudad
+                document.getElementById("calle").value = detalles.calle
+            })
+            .catch(function(error){
+                console.log("Error en detalles", error)
+            })
+
+        }        
+
+        cargarDetallesDireccion()
+    </script>
+</body>
+</html>
