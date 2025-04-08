@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Dirección</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles de la Dirección</h1>
+        <div class="detalles-linea">
+            <span><strong>ID:</strong></span>
+            <span id="idDireccion"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>País:</strong></span>
+            <span id="pais"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>Comunidad:</strong></span>
+            <span id="comunidad"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>Provincia:</strong></span>
+            <span id="provincia"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>Código Postal:</strong></span>
+            <span id="codigoPostal"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>Ciudad:</strong></span>
+            <span id="ciudad"></span>
+        </div>
+        <div class="detalles-linea">
+            <span><strong>Calle:</strong></span>
+            <span id="calle"></span>
+        </div>
+        <br>
+        <button class="btn-detalles" onclick="window.history.back()">Volver</button>
+    </div>    
+    
+
+    <script>
+        function cargarDetallesDireccion(){ 
+            //extraemos el parámetro de la queryString "id"
+            const urlParams = new URLSearchParams(window.location.search)
+            const idDireccion = urlParams.get("id")
+
+            fetch("http://localhost:4050/direcciones/" + idDireccion)
+            .then(function(respuestaTextoPlano){
+                return respuestaTextoPlano.json()
+            })
+            .then(function(detalles){
+                document.getElementById("idDireccion").innerText =detalles.idDireccion
+                document.getElementById("pais").innerText =detalles.pais
+                document.getElementById("comunidad").innerText =detalles.comunidad
+                document.getElementById("provincia").innerText =detalles.provincia
+                document.getElementById("codigoPostal").innerText =detalles.codigoPostal
+                document.getElementById("ciudad").innerText =detalles.ciudad
+                document.getElementById("calle").innerText =detalles.calle
+
+            })
+            .catch(function(error){
+                console.log("Error en detalles", error);
+            })
+        }
+        cargarDetallesDireccion()
+    </script>
+</body>
+</html>
