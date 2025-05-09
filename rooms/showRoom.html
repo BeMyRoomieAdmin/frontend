@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detalles de la Habitación -- Habitaciones FrontEnd</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Detalles de la Habitación</title>
+    <link rel="stylesheet" href="../styles/showRoom.css" />
   </head>
   <body>
     <div class="container">
-      <h1><u>Detalles de la Habitación</u></h1>
-      <p><b>ID: </b><span id="id"></span></p>
+      <div class="room-image-container">
+        <img id="room-image" alt="Imagen de la habitación" />
+      </div>
+      <p><b>Referencia: </b><span id="id"></span></p>
       <p><b>Cama: </b><span id="cama"></span></p>
       <p><b>Escritorio: </b><span id="escritorio"></span></p>
       <p><b>Armario: </b><span id="armario"></span></p>
@@ -18,61 +19,10 @@
       <p><b>Baño: </b><span id="banyo"></span></p>
       <p><b>Área: </b><span id="area"></span> m²</p>
       <p><b>Libre: </b><span id="libre"></span></p>
-      <button onclick="window.location.href='room.html'">Volver</button>
+
+      <a href="/frontend" class="btn-volver">Volver</a>
     </div>
 
-    <script>
-      function cargarDetalles() {
-        const urlParams = new URLSearchParams(window.location.search)
-        const idRoom = urlParams.get('id')
-
-        if (!idRoom) {
-          console.log('ID de habitación no proporcionado')
-          return
-        }
-
-        fetch('http://localhost:4050/rooms/' + idRoom)
-          .then(function (respuestaTextoPlano) {
-            return respuestaTextoPlano.json()
-          })
-          .then(function (detalles) {
-            document.getElementById('id').innerText = detalles.idRoom
-
-            document.getElementById('cama').innerText = booleanToText(
-              detalles.cama
-            )
-
-            document.getElementById('escritorio').innerText = booleanToText(
-              detalles.escritorio
-            )
-
-            document.getElementById('armario').innerText = booleanToText(
-              detalles.armario
-            )
-
-            document.getElementById('ventanas').innerText = detalles.ventanas
-
-            document.getElementById('banyo').innerText = booleanToText(
-              detalles.banyo
-            )
-
-            document.getElementById('area').innerText = detalles.area
-
-            document.getElementById('libre').innerText = booleanToText(
-              detalles.libre
-            )
-          })
-          .catch(function (error) {
-            console.log('Error al cargar detalles: ', error)
-          })
-      }
-
-      // Función para sustituir el 'true' por un 'Si' y el 'false' por un 'no'
-      function booleanToText(value) {
-        return value ? 'Sí' : 'No'
-      }
-
-      cargarDetalles()
-    </script>
+    <script src="room.js"></script>
   </body>
 </html>
